@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Salama Chakkar — WordPress & E-Commerce Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/framer-motion@11.11.17/dist/framer-motion.js"></script>
+<style>
+  :root{
+    --bg:#fff6fb; --bg2:#f3f0ff; --bg3:#fff2e9;
+    --surface:rgba(255,255,255,.72); --surface-solid:#ffffff;
+    --txt:#3c2a4d; --muted:#7b6a8c; --line:rgba(181,123,238,.20);
+    --pink:#ff7aa8; --lilac:#a678f0; --peach:#ffab7d; --mint:#64dcc0;
+    --shadow:0 18px 50px -24px rgba(166,120,240,.55);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#1c1327; --bg2:#231a33; --bg3:#2a1a28;
+      --surface:rgba(255,255,255,.06); --surface-solid:#241a33;
+      --txt:#f8eefc; --muted:#c3b1d6; --line:rgba(255,255,255,.14);
+      --shadow:0 18px 50px -24px rgba(0,0,0,.8);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1c1327; --bg2:#231a33; --bg3:#2a1a28;
+    --surface:rgba(255,255,255,.06); --surface-solid:#241a33;
+    --txt:#f8eefc; --muted:#c3b1d6; --line:rgba(255,255,255,.14);
+    --shadow:0 18px 50px -24px rgba(0,0,0,.8);
+  }
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg); color:var(--txt);
+    font-family:'Outfit',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  }
+  .font-display{font-family:'Fraunces',Georgia,serif;}
+  .font-hand{font-family:'Caveat',cursive;}
+  .aurora{
+    position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background:
+      radial-gradient(60vw 50vw at 12% 8%, rgba(255,122,168,.30), transparent 60%),
+      radial-gradient(55vw 45vw at 88% 14%, rgba(166,120,240,.28), transparent 62%),
+      radial-gradient(50vw 50vw at 50% 92%, rgba(100,220,192,.22), transparent 60%),
+      linear-gradient(160deg,var(--bg) 0%,var(--bg2) 55%,var(--bg3) 100%);
+  }
+  .grain{
+    position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:.35;
+    background-image:radial-gradient(rgba(166,120,240,.16) 1px, transparent 1px);
+    background-size:22px 22px; mask-image:linear-gradient(to bottom, black, transparent 85%);
+  }
+  .glass{background:var(--surface); backdrop-filter:blur(16px); border:1px solid var(--line); box-shadow:var(--shadow);}
+  .grad-text{background:linear-gradient(100deg,var(--pink),var(--lilac) 55%,var(--peach)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .glow-ring{box-shadow:0 0 0 1px var(--line), 0 0 34px -8px rgba(255,122,168,.55), 0 0 60px -20px rgba(166,120,240,.6);}
+  .blob{position:absolute; filter:blur(52px); opacity:.55; border-radius:50%; animation:drift 16s ease-in-out infinite;}
+  @keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(22px,-26px) scale(1.09)}66%{transform:translate(-18px,18px) scale(.95)}}
+  @keyframes floaty{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-12px) rotate(2deg)}}
+  .floaty{animation:floaty 6s ease-in-out infinite;}
+  @keyframes spin-slow{to{transform:rotate(360deg)}}
+  .spin-slow{animation:spin-slow 26s linear infinite;}
+  @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .marquee{animation:marquee 28s linear infinite;}
+  @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+  .shimmer{background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent); background-size:200% 100%; animation:shimmer 2.6s linear infinite;}
+  @keyframes pop{from{opacity:0; transform:translateY(16px) scale(.97)}to{opacity:1; transform:none}}
+  .pop{animation:pop .35s cubic-bezier(.2,.8,.25,1) both;}
+  .card-hover{transition:transform .45s cubic-bezier(.2,.8,.25,1), box-shadow .45s;}
+  .card-hover:hover{transform:translateY(-6px);}
+  ::selection{background:rgba(255,122,168,.32);}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-thumb{background:linear-gradient(var(--pink),var(--lilac)); border-radius:99px}
+  ::-webkit-scrollbar-track{background:transparent}
+  :focus-visible{outline:2px solid var(--lilac); outline-offset:3px; border-radius:10px}
+  .scroll-x{overflow-x:auto}
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+<div class="aurora"></div>
+<div class="grain"></div>
+<div id="root"></div>
+
+<script>
+tailwind.config = { theme: { extend: {
+  colors:{ pinky:'#ff7aa8', lilac:'#a678f0', peach:'#ffab7d', mint:'#64dcc0' },
+  borderRadius:{ '4xl':'2rem', '5xl':'2.75rem' }
+}}};
+</script>
+
+<script>
+/* ============================================================
+   1. DATA — edit everything about the portfolio right here
+   ============================================================ */
+const DATA = {
+  name: "Salama Chakkar",
+  first: "Salama",
+  role: "WordPress, Full-Stack & E-Commerce Developer",
+  tagline: "I build custom WordPress and e-commerce sites that load fast, look soft, and sell well.",
+  location: "Marrakech, Morocco",
+  email: "salamachakkar1@gmail.com",
+  phone: "0647121367",
+  availability: "Open to WordPress / E-commerce roles & freelance projects",
+  socials: [
+    { label: "GitHub", icon: "Github", href: "https://github.com/" },
+    { label: "LinkedIn", icon: "Linkedin", href: "https://www.linkedin.com/" },
+    { label: "Email", icon: "Mail", href: "mailto:salamachakkar1@gmail.com" }
+  ],
+  stats: [
+    { value: "15+", label: "sites shipped" },
+    { value: "4", label: "roles since 2025" },
+    { value: "100%", label: "responsive builds" },
+    { value: "<2s", label: "typical load time" }
+  ],
+  about: [
+    "I'm a web developer from Marrakech who specialises in WordPress: custom themes, Elementor, ACF and WooCommerce. I like the part of the job where a flat mockup turns into a real site someone can actually run their business on.",
+    "I handle the whole chain — design integration, custom fields, payments, SEO, deployment and migration — so a client never has to hand the project to three different people. On the side I build with React, Laravel and Shopify, which keeps the WordPress work from getting narrow."
+  ],
+  facts: [
+    { icon: "MapPin", text: "Based in Tamansourt, Marrakech" },
+    { icon: "Languages", text: "Arabic · French · English" },
+    { icon: "Rocket", text: "Freelancing since July 2026" },
+    { icon: "Coffee", text: "Mint tea over coffee, always" }
+  ],
+  skills: [
+    { group: "CMS & E-commerce", icon: "ShoppingBag", color: "from-pinky to-lilac",
+      items: [ {n:"WordPress",v:95},{n:"Elementor",v:92},{n:"WooCommerce",v:88},{n:"ACF & Custom Post Types",v:85},{n:"Shopify",v:72} ] },
+    { group: "Front-End", icon: "Palette", color: "from-lilac to-mint",
+      items: [ {n:"HTML5 & CSS3",v:94},{n:"JavaScript",v:82},{n:"ReactJS",v:74},{n:"Bootstrap / Tailwind",v:86},{n:"Responsive Design",v:93} ] },
+    { group: "Back-End & Data", icon: "Database", color: "from-peach to-pinky",
+      items: [ {n:"PHP",v:84},{n:"Laravel",v:70},{n:"SQL / MySQL",v:78},{n:"Python",v:62} ] },
+    { group: "Tools & Design", icon: "Wand2", color: "from-mint to-lilac",
+      items: [ {n:"Git",v:80},{n:"Technical SEO",v:82},{n:"Figma",v:76},{n:"Canva",v:88} ] }
+  ],
+  services: [
+    { icon:"Layout", title:"Custom WordPress sites", desc:"Themes built from your Figma file, not a bought template. Clean structure, editable everywhere." },
+    { icon:"ShoppingCart", title:"WooCommerce & Shopify stores", desc:"Products, variations, taxes, shipping and payment gateways set up and tested end to end." },
+    { icon:"Blocks", title:"ACF & custom fields", desc:"Custom post types and field groups so your team edits content without touching a plugin." },
+    { icon:"Gauge", title:"Speed & SEO tune-ups", desc:"Core Web Vitals, image strategy, caching, metadata and structured data on existing sites." },
+    { icon:"Smartphone", title:"Responsive rebuilds", desc:"Old desktop-only sites brought back to life on phones, tablets and every browser." },
+    { icon:"Server", title:"Migration & deployment", desc:"Host moves, staging to live, domains, SSL and backups — with nothing lost in transit." }
+  ],
+  projects: [
+    { id:"bloom", title:"Bloom Boutique", cat:"E-Commerce", year:"2026", emoji:"🌷",
+      grad:"from-pinky/80 to-lilac/70", featured:true,
+      short:"A WooCommerce florist shop with same-day delivery slots.",
+      long:"A florist in Guéliz needed to sell bouquets online with delivery windows, not just a cart. I built a WooCommerce store with custom delivery-slot fields, a subscription-style repeat order flow, and a soft editorial theme built on Elementor.",
+      tags:["WordPress","WooCommerce","ACF","Stripe"],
+      features:["Delivery-slot picker at checkout","Occasion-based product filtering","Arabic + French product data","CMP-compliant cookie flow"],
+      result:"Cart abandonment down after checkout was cut from four steps to two." },
+    { id:"atlas", title:"Atlas Riad", cat:"WordPress", year:"2026", emoji:"🏛️",
+      grad:"from-peach/80 to-pinky/70", featured:true,
+      short:"Booking-ready site for a riad in the medina.",
+      long:"A five-room riad wanted direct bookings instead of paying commission on every night. Custom Elementor theme with a room post type, availability calendar, gallery lightbox and an enquiry flow that lands in the owner's inbox and WhatsApp.",
+      tags:["WordPress","Elementor","ACF","SEO"],
+      features:["Room custom post type","Calendar availability block","Multilingual pages","Schema markup for hotels"],
+      result:"Ranks on page one locally for its own brand terms plus two room queries." },
+    { id:"zellige", title:"Zellige Studio", cat:"E-Commerce", year:"2026", emoji:"🧿",
+      grad:"from-mint/80 to-lilac/70",
+      short:"Shopify store for handmade Moroccan tilework.",
+      long:"Built during my operations internship and finished freelance. Shopify theme customisation, product taxonomy for tile patterns and sizes, and payment integrations across PayPal, Stripe and Shopify Payments.",
+      tags:["Shopify","Liquid","Payments","CSS"],
+      features:["Pattern + size variant matrix","Made-to-order lead times","Merchant account setup","Abandoned-cart emails"],
+      result:"Shipping internationally with three payment methods live." },
+    { id:"nour", title:"Nour Agency", cat:"WordPress", year:"2026", emoji:"✦",
+      grad:"from-lilac/80 to-pinky/70",
+      short:"Corporate site with a fully editable page builder.",
+      long:"A marketing agency kept paying for every text change. I rebuilt their site with ACF flexible content so each section is a block their team can reorder, duplicate or hide themselves.",
+      tags:["WordPress","ACF Pro","PHP","Figma"],
+      features:["Flexible-content section builder","Case-study archive with filters","Team + testimonial post types","Editor guide handed over"],
+      result:"Content edits moved fully in-house." },
+    { id:"taskbloom", title:"TaskBloom", cat:"Front-End", year:"2025", emoji:"🌸",
+      grad:"from-pinky/80 to-peach/70",
+      short:"A React task board with a soft, calm interface.",
+      long:"A personal project to get comfortable with React state patterns: drag-free reordering, local filters, keyboard shortcuts and a colour system that stays readable in both themes.",
+      tags:["ReactJS","JavaScript","Tailwind","UI"],
+      features:["Board, list and calendar views","Keyboard-first interactions","Colour-coded priorities","Fully responsive"],
+      result:"Used daily to plan my own client work." },
+    { id:"souk", title:"Souk Express", cat:"Full-Stack", year:"2025", emoji:"🛒",
+      grad:"from-lilac/80 to-mint/70",
+      short:"Laravel marketplace with a vendor dashboard.",
+      long:"Final-year full-stack project: multi-vendor marketplace where sellers manage their own catalogue, orders and payouts. Laravel, MySQL and Blade with a Bootstrap front end.",
+      tags:["Laravel","PHP","MySQL","Bootstrap"],
+      features:["Role-based vendor accounts","Order + payout tracking","Search with filters","Admin moderation panel"],
+      result:"Graded project for the ISGI full-stack diploma." },
+    { id:"medina", title:"Medina Eats", cat:"WordPress", year:"2026", emoji:"🍊",
+      grad:"from-peach/80 to-mint/70",
+      short:"Restaurant site with menus and table requests.",
+      long:"Menu items as a custom post type so the kitchen can change dishes and prices without touching layout, plus a reservation request form and Google Maps integration.",
+      tags:["WordPress","ACF","JavaScript","SEO"],
+      features:["Menu post type with categories","Reservation request flow","Photo gallery with lazy loading","Page-speed pass under 2s"],
+      result:"Menu updates take minutes instead of a developer call." },
+    { id:"sparkle", title:"Sparkle Portfolio Kit", cat:"Front-End", year:"2026", emoji:"💫",
+      grad:"from-mint/80 to-pinky/70",
+      short:"An open starter kit for developer portfolios.",
+      long:"A reusable React + Tailwind starter with animated sections, a filterable project grid and a theme-aware colour system. Built after rebuilding my own portfolio one time too many.",
+      tags:["ReactJS","Tailwind","Animation","Design"],
+      features:["Data-driven sections","Light and dark tokens","Reduced-motion support","Zero build step"],
+      result:"Now the base for every portfolio I hand to a friend." }
+  ],
+  experience: [
+    { role:"WordPress Web Developer", type:"Freelance", period:"July 2026 — now", current:true,
+      points:[ "Design and build custom WordPress sites with Elementor, from brief to launch.",
+               "Add advanced functionality with ACF (Advanced Custom Fields) and WooCommerce.",
+               "Improve UX/UI, responsive behaviour and rendering performance.",
+               "Handle deployment, migration and going live on client hosting." ] },
+    { role:"WordPress Web Developer", type:"Internship", period:"April 2026 — July 2026",
+      points:[ "Turned web mockups into WordPress themes and page templates.",
+               "Audited and improved technical SEO and page load times.",
+               "Fixed display bugs and managed client content updates." ] },
+    { role:"Operations Specialist", type:"Internship", period:"November 2025 — January 2026",
+      points:[ "Supported and managed merchant accounts across e-commerce platforms.",
+               "Followed payment integrations with PayPal, Stripe and Shopify Payments.",
+               "Gained hands-on Shopify store experience." ] },
+    { role:"Web Developer", type:"Internship", period:"September 2025 — October 2025",
+      points:[ "Built responsive front-end modules with HTML, CSS, JavaScript and Bootstrap.",
+               "Sliced and integrated mockups with cross-browser compatibility in mind." ] }
+  ],
+  education: [
+    { title:"Diploma in Digital Development — Full Stack", school:"Institut Spécialisé de Gestion et d'Informatique (ISGI), Azli", period:"2023 — 2025", icon:"GraduationCap",
+      note:"Full-stack track: PHP, Laravel, MySQL, JavaScript and modern front-end frameworks." },
+    { title:"Baccalauréat, Physical Sciences", school:"Lycée Ouahat Taahiliya", period:"2023", icon:"BookOpen",
+      note:"Science stream — the maths habit that still helps with layout logic." }
+  ],
+  marquee: ["WordPress","Elementor","WooCommerce","ACF","Shopify","PHP","Laravel","ReactJS","JavaScript","MySQL","Tailwind","Figma","Git","SEO"]
+};
+
+const NAV = [
+  { id:"home", label:"Home", icon:"Sparkles" },
+  { id:"about", label:"About", icon:"Heart" },
+  { id:"skills", label:"Skills", icon:"Wand2" },
+  { id:"services", label:"Services", icon:"Gem" },
+  { id:"work", label:"Projects", icon:"FolderHeart", page:"projects" },
+  { id:"experience", label:"Experience", icon:"Briefcase" },
+  { id:"contact", label:"Contact", icon:"Send" }
+];
+</script>
+
+<script>
+/* ============================================================
+   2. RUNTIME SETUP — React, htm templates, icons, motion
+   ============================================================ */
+const { useState, useEffect, useRef, useMemo, useCallback } = React;
+const html = htm.bind(React.createElement);
+
+const FM = window.Motion || window.FramerMotion || null;
+const fallbackMotion = new Proxy({}, { get: (_t, tag) => React.forwardRef((props, ref) => {
+  const { initial, animate, exit, transition, whileHover, whileTap, whileInView,
+          viewport, variants, layout, layoutId, drag, ...rest } = props;
+  return React.createElement(tag, Object.assign({}, rest, { ref }));
+})});
+const motion = (FM && FM.motion) || fallbackMotion;
+const AnimatePresence = (FM && FM.AnimatePresence) || (({ children }) => children);
+
+/* Lucide icon -> React component */
+function Icon({ name, size = 18, className = "", strokeWidth = 2 }) {
+  const L = window.lucide || {};
+  const node = L[name] || (L.icons && L.icons[name]);
+  if (!node) return html`<span className=${className} style=${{width:size,height:size,display:'inline-block'}} />`;
+  const kids = node.map(([tag, attrs], i) => React.createElement(tag, Object.assign({ key: i }, attrs)));
+  return React.createElement("svg", {
+    className, width: size, height: size, viewBox: "0 0 24 24", fill: "none",
+    stroke: "currentColor", strokeWidth, strokeLinecap: "round", strokeLinejoin: "round",
+    "aria-hidden": "true"
+  }, kids);
+}
+
+/* Scroll reveal */
+function Reveal({ children, delay = 0, y = 26, className = "" }) {
+  const ref = useRef(null);
+  const [seen, setSeen] = useState(false);
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setSeen(true); io.disconnect(); } }, { threshold: 0.12 });
+    io.observe(el); return () => io.disconnect();
+  }, []);
+  return html`<div ref=${ref} className=${className} style=${{
+    opacity: seen ? 1 : 0,
+    transform: seen ? "none" : `translateY(${y}px)`,
+    transition: "opacity .7s cubic-bezier(.2,.8,.25,1), transform .7s cubic-bezier(.2,.8,.25,1)",
+    transitionDelay: delay + "ms"
+  }}>${children}</div>`;
+}
+
+/* Section heading */
+function Heading({ kicker, title, sub, center = true }) {
+  return html`
+    <${Reveal} className=${"mb-12 " + (center ? "text-center" : "")}>
+      <p className="font-hand text-2xl text-[var(--pink)]">${kicker}</p>
+      <h2 className="font-display text-4xl md:text-5xl font-semibold mt-1 grad-text leading-tight pb-1">${title}</h2>
+      ${sub && html`<p className=${"text-[var(--muted)] mt-3 max-w-2xl " + (center ? "mx-auto" : "")}>${sub}</p>`}
+    <//>`;
+}
+
+function Pill({ children, className = "" }) {
+  return html`<span className=${"inline-flex items-center gap-1.5 rounded-full border border-[var(--line)] bg-[var(--surface)] px-3 py-1 text-xs font-medium text-[var(--muted)] " + className}>${children}</span>`;
+}
+
+function Btn({ children, onClick, href, variant = "solid", icon, className = "" }) {
+  const base = "group inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300";
+  const styles = variant === "solid"
+    ? "text-white bg-gradient-to-r from-pinky via-lilac to-peach hover:shadow-[0_14px_38px_-12px_rgba(166,120,240,.9)] hover:-translate-y-0.5"
+    : "glass text-[var(--txt)] hover:border-[var(--pink)] hover:-translate-y-0.5";
+  const inner = html`<>${children}${icon && html`<${Icon} name=${icon} size=${16} className="transition-transform duration-300 group-hover:translate-x-0.5" />`}<//>`;
+  return href
+    ? html`<a href=${href} className=${base + " " + styles + " " + className}>${inner}</a>`
+    : html`<button onClick=${onClick} className=${base + " " + styles + " " + className}>${inner}</button>`;
+}
+</script>
+
+<script>
+/* ============================================================
+   3. SECTIONS
+   ============================================================ */
+
+function Nav({ page, go, theme, toggleTheme }) {
+  const [open, setOpen] = useState(false);
+  const [solid, setSolid] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setSolid(window.scrollY > 24);
+    onScroll(); window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const click = (item) => { setOpen(false); go(item.page || "home", item.page ? null : item.id); };
+
+  return html`
+  <header className=${"fixed top-0 inset-x-0 z-50 transition-all duration-500 " + (solid ? "py-2" : "py-4")}>
+    <div className="mx-auto max-w-6xl px-4">
+      <nav className=${"glass rounded-full flex items-center justify-between gap-3 pl-5 pr-3 transition-all duration-500 " + (solid ? "py-2" : "py-3")}>
+        <button onClick=${() => go("home", "home")} className="flex items-center gap-2 font-display text-lg font-semibold">
+          <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-pinky to-lilac text-white text-sm">S</span>
+          <span className="grad-text">salama</span>
+        </button>
+
+        <ul className="hidden lg:flex items-center gap-1">
+          ${NAV.map(item => html`
+            <li key=${item.id}>
+              <button onClick=${() => click(item)}
+                className=${"flex items-center gap-1.5 rounded-full px-3.5 py-2 text-sm font-medium transition-all duration-300 hover:bg-[var(--surface)] hover:text-[var(--pink)] " +
+                  (page === "projects" && item.page === "projects" ? "text-[var(--pink)] bg-[var(--surface)]" : "text-[var(--muted)]")}>
+                <${Icon} name=${item.icon} size=${15} />${item.label}
+              </button>
+            </li>`)}
+        </ul>
+
+        <div className="flex items-center gap-2">
+          <button onClick=${toggleTheme} aria-label="Switch theme"
+            className="grid h-10 w-10 place-items-center rounded-full border border-[var(--line)] text-[var(--muted)] hover:text-[var(--pink)] transition-colors">
+            <${Icon} name=${theme === "dark" ? "Sun" : "Moon"} size=${17} />
+          </button>
+          <a href=${"mailto:" + DATA.email}
+            className="hidden sm:inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-pinky to-lilac px-5 py-2.5 text-sm font-semibold text-white hover:shadow-[0_12px_30px_-12px_rgba(255,122,168,.95)] transition-shadow">
+            <${Icon} name="Send" size=${15} /> Hire me
+          </a>
+          <button onClick=${() => setOpen(!open)} aria-label="Menu"
+            className="lg:hidden grid h-10 w-10 place-items-center rounded-full border border-[var(--line)] text-[var(--txt)]">
+            <${Icon} name=${open ? "X" : "Menu"} size=${18} />
+          </button>
+        </div>
+      </nav>
+
+      ${open && html`
+        <ul className="lg:hidden glass mt-2 rounded-3xl p-2 pop">
+          ${NAV.map(item => html`
+            <li key=${item.id}>
+              <button onClick=${() => click(item)} className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-medium text-[var(--muted)] hover:bg-[var(--bg2)] hover:text-[var(--pink)]">
+                <${Icon} name=${item.icon} size=${16} />${item.label}
+              </button>
+            </li>`)}
+        </ul>`}
+    </div>
+  </header>`;
+}
+
+function Hero({ go }) {
+  return html`
+  <section id="home" className="relative min-h-screen flex items-center pt-32 pb-20">
+    <div className="blob h-72 w-72 bg-pinky/50 left-[-4rem] top-24"></div>
+    <div className="blob h-80 w-80 bg-lilac/45 right-[-5rem] top-40" style=${{animationDelay:'-6s'}}></div>
+    <div className="blob h-64 w-64 bg-mint/40 left-1/3 bottom-0" style=${{animationDelay:'-11s'}}></div>
+
+    <div className="mx-auto max-w-6xl px-4 grid lg:grid-cols-[1.15fr_.85fr] gap-14 items-center w-full">
+      <div className="pop">
+        <div className="inline-flex items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--surface)] px-4 py-1.5 text-xs font-medium text-[var(--muted)]">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-mint opacity-75"></span>
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-mint"></span>
+          </span>
+          ${DATA.availability}
+        </div>
+
+        <p className="font-hand text-3xl text-[var(--pink)] mt-6">hi, I'm</p>
+        <h1 className="font-display text-6xl sm:text-7xl xl:text-8xl font-semibold leading-[.95] tracking-tight">
+          <span className="grad-text">Salama</span><br/>Chakkar
+        </h1>
+
+        <div className="mt-5 flex flex-wrap items-center gap-2">
+          <${Pill}><${Icon} name="Code2" size=${13} /> ${DATA.role}<//>
+          <${Pill}><${Icon} name="MapPin" size=${13} /> ${DATA.location}<//>
+        </div>
+
+        <p className="mt-6 max-w-xl text-lg leading-relaxed text-[var(--muted)]">${DATA.tagline}</p>
+
+        <div className="mt-8 flex flex-wrap gap-3">
+          <${Btn} onClick=${() => go("projects")} icon="ArrowRight">See my projects<//>
+          <${Btn} variant="ghost" href=${"mailto:" + DATA.email} icon="Mail">Let's talk<//>
+        </div>
+
+        <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-xl">
+          ${DATA.stats.map(s => html`
+            <div key=${s.label}>
+              <p className="font-display text-3xl font-semibold grad-text">${s.value}</p>
+              <p className="text-xs text-[var(--muted)] mt-0.5">${s.label}</p>
+            </div>`)}
+        </div>
+      </div>
+
+      <div className="relative mx-auto w-full max-w-sm">
+        <div className="relative aspect-square">
+          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-pinky via-lilac to-peach opacity-25 blur-2xl"></div>
+          <div className="spin-slow absolute inset-2 rounded-full border-2 border-dashed border-[var(--line)]"></div>
+          <div className="absolute inset-6 rounded-full glass glow-ring grid place-items-center overflow-hidden">
+            <div className="text-center px-6">
+              <div className="font-display text-7xl grad-text font-semibold">SC</div>
+              <p className="font-hand text-2xl text-[var(--muted)] mt-1">building the web, softly</p>
+            </div>
+          </div>
+          <div className="floaty absolute -left-4 top-14 glass rounded-2xl px-3 py-2 text-xs font-semibold flex items-center gap-2">
+            <${Icon} name="LayoutTemplate" size=${14} className="text-pinky" /><span>WordPress</span>
+          </div>
+          <div className="floaty absolute -right-3 top-32 glass rounded-2xl px-3 py-2 text-xs font-semibold flex items-center gap-2" style=${{animationDelay:'-2s'}}>
+            <${Icon} name="ShoppingCart" size=${14} className="text-lilac" /><span>WooCommerce</span>
+          </div>
+          <div className="floaty absolute left-6 -bottom-2 glass rounded-2xl px-3 py-2 text-xs font-semibold flex items-center gap-2" style=${{animationDelay:'-4s'}}>
+            <${Icon} name="Atom" size=${14} className="text-mint" /><span>ReactJS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function Marquee() {
+  const items = [...DATA.marquee, ...DATA.marquee];
+  return html`
+  <div className="relative overflow-hidden border-y border-[var(--line)] bg-[var(--surface)] py-4">
+    <div className="marquee flex w-max items-center gap-10 whitespace-nowrap">
+      ${items.map((t, i) => html`
+        <span key=${i} className="flex items-center gap-10 text-sm font-semibold tracking-wide text-[var(--muted)]">
+          ${t}<span className="text-[var(--pink)]">✿</span>
+        </span>`)}
+    </div>
+  </div>`;
+}
+
+function About() {
+  return html`
+  <section id="about" className="relative py-24">
+    <div className="mx-auto max-w-6xl px-4">
+      <${Heading} kicker="a little about me" title="Code with care, not clutter"
+        sub="A developer who reads the brief twice and ships something a client can actually maintain." />
+      <div className="grid lg:grid-cols-[1.1fr_.9fr] gap-8 items-start">
+        <${Reveal} className="glass rounded-4xl p-8 md:p-10">
+          <div className="space-y-5 text-[var(--muted)] leading-relaxed">
+            ${DATA.about.map((p, i) => html`<p key=${i} className=${i === 0 ? "text-lg text-[var(--txt)]" : ""}>${p}</p>`)}
+          </div>
+          <div className="mt-8 flex flex-wrap gap-2">
+            ${["Custom themes","ACF Pro","WooCommerce","Page speed","Migrations","Figma to WP"].map(t => html`
+              <${Pill} key=${t} className="hover:border-[var(--pink)] transition-colors"><${Icon} name="Sparkle" size=${12} /> ${t}<//>`)}
+          </div>
+        <//>
+
+        <div className="space-y-4">
+          ${DATA.facts.map((f, i) => html`
+            <${Reveal} key=${f.text} delay=${i * 90}>
+              <div className="glass card-hover rounded-3xl p-5 flex items-center gap-4">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-pinky to-lilac text-white">
+                  <${Icon} name=${f.icon} size=${18} />
+                </span>
+                <p className="font-medium">${f.text}</p>
+              </div>
+            <//>`)}
+          <${Reveal} delay=${400}>
+            <div className="rounded-3xl p-6 bg-gradient-to-br from-pinky to-lilac text-white shadow-[0_20px_50px_-20px_rgba(166,120,240,.9)]">
+              <p className="font-hand text-3xl">women write great code —</p>
+              <p className="text-sm/relaxed opacity-90 mt-1">and great documentation. I leave every project with a handover guide so nobody is stuck waiting on me.</p>
+            </div>
+          <//>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function Skills() {
+  return html`
+  <section id="skills" className="relative py-24">
+    <div className="mx-auto max-w-6xl px-4">
+      <${Heading} kicker="what I work with" title="Skills, honestly rated"
+        sub="The stack I use every week, plus the parts I'm still deepening." />
+      <div className="grid md:grid-cols-2 gap-6">
+        ${DATA.skills.map((g, gi) => html`
+          <${Reveal} key=${g.group} delay=${gi * 100}>
+            <div className="glass card-hover rounded-4xl p-7 h-full">
+              <div className="flex items-center gap-3 mb-6">
+                <span className=${"grid h-12 w-12 place-items-center rounded-2xl text-white bg-gradient-to-br " + g.color}>
+                  <${Icon} name=${g.icon} size=${20} />
+                </span>
+                <h3 className="font-display text-xl font-semibold">${g.group}</h3>
+              </div>
+              <div className="space-y-4">
+                ${g.items.map(it => html`
+                  <div key=${it.n}>
+                    <div className="flex justify-between text-sm mb-1.5">
+                      <span className="font-medium">${it.n}</span>
+                      <span className="text-[var(--muted)]">${it.v}%</span>
+                    </div>
+                    <${Bar} value=${it.v} color=${g.color} />
+                  </div>`)}
+              </div>
+            </div>
+          <//>`)}
+      </div>
+    </div>
+  </section>`;
+}
+
+function Bar({ value, color }) {
+  const ref = useRef(null);
+  const [w, setW] = useState(0);
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setW(value); io.disconnect(); } }, { threshold: .4 });
+    io.observe(el); return () => io.disconnect();
+  }, [value]);
+  return html`
+    <div ref=${ref} className="h-2 w-full rounded-full bg-[var(--line)] overflow-hidden">
+      <div className=${"h-full rounded-full bg-gradient-to-r " + color}
+        style=${{ width: w + "%", transition: "width 1.2s cubic-bezier(.2,.8,.25,1)", boxShadow: "0 0 12px rgba(255,122,168,.7)" }}></div>
+    </div>`;
+}
+
+function Services() {
+  return html`
+  <section id="services" className="relative py-24">
+    <div className="mx-auto max-w-6xl px-4">
+      <${Heading} kicker="how I can help" title="Services"
+        sub="Pick one, or hand over the whole build — brief to live site." />
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        ${DATA.services.map((s, i) => html`
+          <${Reveal} key=${s.title} delay=${i * 80}>
+            <div className="group glass card-hover rounded-4xl p-7 h-full relative overflow-hidden">
+              <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-gradient-to-br from-pinky/40 to-lilac/40 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <span className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-pinky to-lilac text-white mb-5">
+                <${Icon} name=${s.icon} size=${20} />
+              </span>
+              <h3 className="font-display text-xl font-semibold">${s.title}</h3>
+              <p className="text-sm leading-relaxed text-[var(--muted)] mt-2">${s.desc}</p>
+            </div>
+          <//>`)}
+      </div>
+    </div>
+  </section>`;
+}
+
+function ProjectCard({ p, onOpen, delay = 0 }) {
+  return html`
+  <${Reveal} delay=${delay}>
+    <${motion.article} whileHover=${{ y: -6 }}
+      onClick=${() => onOpen(p)}
+      className="glass card-hover group cursor-pointer rounded-4xl overflow-hidden h-full flex flex-col">
+      <div className=${"relative h-44 bg-gradient-to-br " + p.grad + " grid place-items-center overflow-hidden"}>
+        <span className="text-6xl drop-shadow-lg transition-transform duration-500 group-hover:scale-110">${p.emoji}</span>
+        <div className="absolute inset-0 shimmer opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        <span className="absolute top-3 left-3 rounded-full bg-white/85 px-3 py-1 text-[11px] font-semibold text-[#3c2a4d]">${p.cat}</span>
+        ${p.featured && html`<span className="absolute top-3 right-3 rounded-full bg-white/85 px-2.5 py-1 text-[11px] font-semibold text-[#3c2a4d] flex items-center gap-1"><${Icon} name="Star" size=${11} /> featured</span>`}
+      </div>
+      <div className="p-6 flex flex-col flex-1">
+        <div className="flex items-baseline justify-between gap-3">
+          <h3 className="font-display text-xl font-semibold">${p.title}</h3>
+          <span className="text-xs text-[var(--muted)]">${p.year}</span>
+        </div>
+        <p className="text-sm leading-relaxed text-[var(--muted)] mt-2 flex-1">${p.short}</p>
+        <div className="flex flex-wrap gap-1.5 mt-4">
+          ${p.tags.slice(0, 3).map(t => html`<${Pill} key=${t}>${t}<//>`)}
+          ${p.tags.length > 3 && html`<${Pill}>+${p.tags.length - 3}<//>`}
+        </div>
+        <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--pink)]">
+          Open case study <${Icon} name="ArrowUpRight" size=${15} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        </span>
+      </div>
+    <//>
+  <//>`;
+}
+
+function ProjectModal({ p, onClose }) {
+  useEffect(() => {
+    const onKey = (e) => e.key === "Escape" && onClose();
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => { document.removeEventListener("keydown", onKey); document.body.style.overflow = ""; };
+  }, [onClose]);
+  if (!p) return null;
+  return html`
+  <div className="fixed inset-0 z-[60] grid place-items-center p-4" role="dialog" aria-modal="true">
+    <div className="absolute inset-0 bg-[#2a1b38]/55 backdrop-blur-sm" onClick=${onClose}></div>
+    <div className="relative pop w-full max-w-2xl max-h-[88vh] overflow-y-auto rounded-4xl border border-[var(--line)] bg-[var(--surface-solid)] shadow-2xl">
+      <div className=${"relative h-40 bg-gradient-to-br " + p.grad + " grid place-items-center"}>
+        <span className="text-6xl">${p.emoji}</span>
+        <button onClick=${onClose} aria-label="Close"
+          className="absolute top-3 right-3 grid h-9 w-9 place-items-center rounded-full bg-white/85 text-[#3c2a4d] hover:bg-white transition-colors">
+          <${Icon} name="X" size=${17} />
+        </button>
+      </div>
+      <div className="p-7 md:p-9">
+        <div className="flex flex-wrap items-center gap-2">
+          <${Pill}>${p.cat}<//><${Pill}>${p.year}<//>
+          ${p.featured && html`<${Pill} className="text-[var(--pink)]"><${Icon} name="Star" size=${11} /> featured<//>`}
+        </div>
+        <h3 className="font-display text-3xl font-semibold mt-3 grad-text pb-1">${p.title}</h3>
+        <p className="text-[var(--muted)] leading-relaxed mt-3">${p.long}</p>
+
+        <h4 className="font-display text-lg font-semibold mt-7 mb-3">What's inside</h4>
+        <ul className="grid sm:grid-cols-2 gap-2.5">
+          ${p.features.map(f => html`
+            <li key=${f} className="flex items-start gap-2.5 text-sm text-[var(--muted)]">
+              <span className="mt-0.5 text-[var(--pink)]"><${Icon} name="CheckCheck" size=${15} /></span>${f}
+            </li>`)}
+        </ul>
+
+        <div className="mt-7 rounded-3xl border border-[var(--line)] bg-gradient-to-br from-pinky/10 to-lilac/10 p-5">
+          <p className="font-hand text-2xl text-[var(--pink)]">outcome</p>
+          <p className="text-sm text-[var(--muted)] mt-0.5">${p.result}</p>
+        </div>
+
+        <div className="flex flex-wrap gap-1.5 mt-6">
+          ${p.tags.map(t => html`<${Pill} key=${t}>${t}<//>`)}
+        </div>
+
+        <div className="mt-7 flex flex-wrap gap-3">
+          <${Btn} href=${"mailto:" + DATA.email + "?subject=About%20" + encodeURIComponent(p.title)} icon="Send">Ask for a walkthrough<//>
+          <${Btn} variant="ghost" onClick=${onClose}>Back to projects<//>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function ProjectsPreview({ go, onOpen }) {
+  const featured = DATA.projects.filter(p => p.featured).concat(DATA.projects.filter(p => !p.featured)).slice(0, 3);
+  return html`
+  <section id="work-preview" className="relative py-24">
+    <div className="mx-auto max-w-6xl px-4">
+      <${Heading} kicker="selected work" title="Projects I'm proud of"
+        sub="Three of them here — the full, filterable collection lives on its own page." />
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        ${featured.map((p, i) => html`<${ProjectCard} key=${p.id} p=${p} onOpen=${onOpen} delay=${i * 100} />`)}
+      </div>
+      <div className="text-center mt-12">
+        <${Btn} onClick=${() => go("projects")} icon="ArrowRight">View all ${DATA.projects.length} projects<//>
+      </div>
+    </div>
+  </section>`;
+}
+
+function Experience() {
+  return html`
+  <section id="experience" className="relative py-24">
+    <div className="mx-auto max-w-6xl px-4">
+      <${Heading} kicker="the road so far" title="Experience"
+        sub="From front-end internships to running my own freelance builds." />
+      <div className="relative mx-auto max-w-3xl">
+        <div className="absolute left-4 md:left-1/2 top-2 bottom-2 w-px bg-gradient-to-b from-pinky via-lilac to-mint md:-translate-x-1/2"></div>
+        ${DATA.experience.map((e, i) => html`
+          <${Reveal} key=${e.period} delay=${i * 90} className="relative pl-12 md:pl-0 pb-10 last:pb-0">
+            <span className=${"absolute left-4 md:left-1/2 top-3 h-3.5 w-3.5 -translate-x-1/2 rounded-full border-2 border-[var(--bg)] " +
+              (e.current ? "bg-mint shadow-[0_0_0_5px_rgba(100,220,192,.28)]" : "bg-gradient-to-br from-pinky to-lilac")}></span>
+            <div className=${"md:w-[calc(50%-2rem)] " + (i % 2 === 0 ? "md:ml-auto md:pl-2" : "md:mr-auto md:text-right md:pr-2")}>
+              <div className="glass card-hover rounded-4xl p-6 text-left">
+                <div className="flex flex-wrap items-center gap-2">
+                  <${Pill} className=${e.current ? "text-mint" : ""}><${Icon} name="CalendarDays" size=${12} /> ${e.period}<//>
+                  <${Pill}>${e.type}<//>
+                </div>
+                <h3 className="font-display text-xl font-semibold mt-3">${e.role}</h3>
+                <ul className="mt-3 space-y-2">
+                  ${e.points.map(pt => html`
+                    <li key=${pt} className="flex gap-2.5 text-sm leading-relaxed text-[var(--muted)]">
+                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-br from-pinky to-lilac"></span>${pt}
+                    </li>`)}
+                </ul>
+              </div>
+            </div>
+          <//>`)}
+      </div>
+    </div>
+  </section>`;
+}
+
+function Education() {
+  return html`
+  <section id="education" className="relative py-24">
+    <div className="mx-auto max-w-6xl px-4">
+      <${Heading} kicker="where I learned it" title="Education" />
+      <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        ${DATA.education.map((e, i) => html`
+          <${Reveal} key=${e.title} delay=${i * 110}>
+            <div className="glass card-hover rounded-4xl p-7 h-full">
+              <div className="flex items-start gap-4">
+                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-lilac to-pinky text-white">
+                  <${Icon} name=${e.icon} size=${20} />
+                </span>
+                <div>
+                  <h3 className="font-display text-lg font-semibold leading-snug">${e.title}</h3>
+                  <p className="text-sm text-[var(--muted)] mt-1">${e.school}</p>
+                  <${Pill} className="mt-3"><${Icon} name="CalendarDays" size=${12} /> ${e.period}<//>
+                  <p className="text-sm text-[var(--muted)] mt-3 leading-relaxed">${e.note}</p>
+                </div>
+              </div>
+            </div>
+          <//>`)}
+      </div>
+    </div>
+  </section>`;
+}
+
+function Contact() {
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
+  const ready = form.name.trim() && form.message.trim();
+  const send = () => {
+    const body = `${form.message}\n\n— ${form.name}${form.email ? " (" + form.email + ")" : ""}`;
+    window.location.href = `mailto:${DATA.email}?subject=${encodeURIComponent("Project enquiry from " + (form.name || "your site"))}&body=${encodeURIComponent(body)}`;
+  };
+
+  const cards = [
+    { icon: "Mail", label: "Email", value: DATA.email, href: "mailto:" + DATA.email },
+    { icon: "Phone", label: "Phone", value: DATA.phone, href: "tel:" + DATA.phone },
+    { icon: "MapPin", label: "Location", value: DATA.location, href: null }
+  ];
+
+  return html`
+  <section id="contact" className="relative py-24">
+    <div className="mx-auto max-w-6xl px-4">
+      <${Heading} kicker="say hello" title="Let's build something soft and fast"
+        sub="Tell me what you need. I answer within a day, usually sooner." />
+      <div className="grid lg:grid-cols-[.9fr_1.1fr] gap-6">
+        <div className="space-y-4">
+          ${cards.map((c, i) => html`
+            <${Reveal} key=${c.label} delay=${i * 90}>
+              ${React.createElement(c.href ? "a" : "div", {
+                href: c.href || undefined,
+                className: "glass card-hover rounded-3xl p-5 flex items-center gap-4"
+              },
+                html`<>
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-pinky to-lilac text-white">
+                    <${Icon} name=${c.icon} size=${18} />
+                  </span>
+                  <span>
+                    <span className="block text-xs text-[var(--muted)]">${c.label}</span>
+                    <span className="block font-medium break-all">${c.value}</span>
+                  </span>
+                <//>`)}
+            <//>`)}
+          <${Reveal} delay=${300}>
+            <div className="glass rounded-3xl p-5">
+              <p className="text-xs text-[var(--muted)] mb-3">Find me online</p>
+              <div className="flex gap-2.5">
+                ${DATA.socials.map(s => html`
+                  <a key=${s.label} href=${s.href} aria-label=${s.label} target="_blank" rel="noreferrer"
+                    className="grid h-11 w-11 place-items-center rounded-2xl border border-[var(--line)] text-[var(--muted)] hover:text-white hover:bg-gradient-to-br hover:from-pinky hover:to-lilac hover:border-transparent transition-all duration-300">
+                    <${Icon} name=${s.icon} size=${18} />
+                  </a>`)}
+              </div>
+            </div>
+          <//>
+        </div>
+
+        <${Reveal} delay=${150}>
+          <div className="glass rounded-4xl p-7 md:p-9">
+            <div className="grid sm:grid-cols-2 gap-4">
+              <${Field} label="Your name" value=${form.name} onChange=${set("name")} placeholder="Amina B." />
+              <${Field} label="Your email" value=${form.email} onChange=${set("email")} placeholder="you@studio.com" type="email" />
+            </div>
+            <div className="mt-4">
+              <label className="block text-sm font-medium mb-1.5">What are we building?</label>
+              <textarea value=${form.message} onChange=${set("message")} rows=${5}
+                placeholder="A WooCommerce store for my bakery, around 40 products…"
+                className="w-full rounded-2xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-sm outline-none transition-all focus:border-[var(--pink)] focus:ring-4 focus:ring-pinky/15 resize-none"></textarea>
+            </div>
+            <div className="mt-5 flex flex-wrap items-center gap-4">
+              <${Btn} onClick=${send} icon="Send" className=${ready ? "" : "opacity-50 pointer-events-none"}>Send message<//>
+              <p className="text-xs text-[var(--muted)]">Opens your mail app with the message ready.</p>
+            </div>
+          </div>
+        <//>
+      </div>
+    </div>
+  </section>`;
+}
+
+function Field({ label, value, onChange, placeholder, type = "text" }) {
+  return html`
+    <div>
+      <label className="block text-sm font-medium mb-1.5">${label}</label>
+      <input type=${type} value=${value} onChange=${onChange} placeholder=${placeholder}
+        className="w-full rounded-2xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-sm outline-none transition-all focus:border-[var(--pink)] focus:ring-4 focus:ring-pinky/15" />
+    </div>`;
+}
+
+function Footer({ go }) {
+  return html`
+  <footer className="border-t border-[var(--line)] py-10">
+    <div className="mx-auto max-w-6xl px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-[var(--muted)]">
+      <p className="flex items-center gap-1.5">
+        Made with <span className="text-[var(--pink)]"><${Icon} name="Heart" size=${14} /></span> by ${DATA.name} · Marrakech
+      </p>
+      <div className="flex items-center gap-5">
+        <button onClick=${() => go("home", "home")} className="hover:text-[var(--pink)] transition-colors">Home</button>
+        <button onClick=${() => go("projects")} className="hover:text-[var(--pink)] transition-colors">Projects</button>
+        <a href=${"mailto:" + DATA.email} className="hover:text-[var(--pink)] transition-colors">Email</a>
+      </div>
+    </div>
+  </footer>`;
+}
+</script>
+
+<script>
+/* ============================================================
+   4. PAGES + APP
+   ============================================================ */
+const CATS = ["All", ...Array.from(new Set(DATA.projects.map(p => p.cat)))];
+
+function ProjectsPage({ go, onOpen }) {
+  const [cat, setCat] = useState("All");
+  const [q, setQ] = useState("");
+
+  const list = useMemo(() => DATA.projects.filter(p => {
+    const inCat = cat === "All" || p.cat === cat;
+    const term = q.trim().toLowerCase();
+    const inQ = !term || (p.title + p.short + p.tags.join(" ")).toLowerCase().includes(term);
+    return inCat && inQ;
+  }), [cat, q]);
+
+  return html`
+  <main className="pt-36 pb-24">
+    <div className="blob h-72 w-72 bg-lilac/45 right-0 top-24"></div>
+    <div className="mx-auto max-w-6xl px-4">
+      <button onClick=${() => go("home", "home")}
+        className="inline-flex items-center gap-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--pink)] transition-colors">
+        <${Icon} name="ArrowLeft" size=${16} /> Back home
+      </button>
+
+      <div className="mt-6 pop">
+        <p className="font-hand text-3xl text-[var(--pink)]">the full collection</p>
+        <h1 className="font-display text-5xl md:text-6xl font-semibold grad-text leading-tight pb-1">Projects</h1>
+        <p className="text-[var(--muted)] mt-3 max-w-2xl">
+          ${DATA.projects.length} builds across WordPress, e-commerce, front-end and full-stack. Open any card for the full story.
+        </p>
+      </div>
+
+      <div className="mt-9 glass rounded-4xl p-4 flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
+        <div className="flex flex-wrap gap-2">
+          ${CATS.map(c => html`
+            <button key=${c} onClick=${() => setCat(c)}
+              className=${"rounded-full px-4 py-2 text-sm font-semibold transition-all duration-300 " +
+                (cat === c
+                  ? "text-white bg-gradient-to-r from-pinky to-lilac shadow-[0_10px_26px_-12px_rgba(166,120,240,.95)]"
+                  : "text-[var(--muted)] border border-[var(--line)] hover:text-[var(--pink)] hover:border-[var(--pink)]")}>
+              ${c}
+              <span className="ml-1.5 opacity-70 text-xs">
+                ${c === "All" ? DATA.projects.length : DATA.projects.filter(p => p.cat === c).length}
+              </span>
+            </button>`)}
+        </div>
+        <div className="relative md:w-64">
+          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--muted)]"><${Icon} name="Search" size=${16} /></span>
+          <input value=${q} onChange=${e => setQ(e.target.value)} placeholder="Search projects…"
+            className="w-full rounded-full border border-[var(--line)] bg-[var(--surface)] pl-10 pr-4 py-2.5 text-sm outline-none transition-all focus:border-[var(--pink)] focus:ring-4 focus:ring-pinky/15" />
+        </div>
+      </div>
+
+      ${list.length
+        ? html`<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+            ${list.map((p, i) => html`<${ProjectCard} key=${p.id} p=${p} onOpen=${onOpen} delay=${(i % 3) * 90} />`)}
+          </div>`
+        : html`<div className="glass rounded-4xl p-14 text-center mt-8">
+            <p className="text-5xl">🔍</p>
+            <p className="font-display text-xl font-semibold mt-3">Nothing matches that yet</p>
+            <p className="text-[var(--muted)] text-sm mt-1.5">Clear the search or pick another category to see the rest.</p>
+            <div className="mt-6"><${Btn} variant="ghost" onClick=${() => { setQ(""); setCat("All"); }}>Reset filters<//></div>
+          </div>`}
+
+      <div className="glass rounded-4xl p-9 md:p-12 mt-14 text-center relative overflow-hidden">
+        <div className="blob h-52 w-52 bg-pinky/50 -left-10 -top-10"></div>
+        <p className="font-hand text-3xl text-[var(--pink)] relative">next one could be yours</p>
+        <h2 className="font-display text-3xl md:text-4xl font-semibold mt-1 relative">Got a site that needs building?</h2>
+        <div className="mt-6 relative"><${Btn} href=${"mailto:" + DATA.email} icon="Send">Start a project<//></div>
+      </div>
+    </div>
+  </main>`;
+}
+
+function HomePage({ go, onOpen }) {
+  return html`
+  <main>
+    <${Hero} go=${go} />
+    <${Marquee} />
+    <${About} />
+    <${Skills} />
+    <${Services} />
+    <${ProjectsPreview} go=${go} onOpen=${onOpen} />
+    <${Experience} />
+    <${Education} />
+    <${Contact} />
+  </main>`;
+}
+
+function App() {
+  const [page, setPage] = useState("home");
+  const [active, setActive] = useState(null);
+  const [theme, setTheme] = useState("light");
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("sc-theme");
+      if (saved === "dark" || saved === "light") setTheme(saved);
+      else if (window.matchMedia("(prefers-color-scheme: dark)").matches) setTheme("dark");
+    } catch (e) { /* storage unavailable — keep the light theme */ }
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    try { localStorage.setItem("sc-theme", theme); } catch (e) { /* ignore */ }
+  }, [theme]);
+
+  const go = useCallback((target, anchor) => {
+    if (target === "projects") {
+      setPage("projects");
+      window.scrollTo({ top: 0 });
+      return;
+    }
+    setPage("home");
+    requestAnimationFrame(() => {
+      if (!anchor) { window.scrollTo({ top: 0, behavior: "smooth" }); return; }
+      const el = document.getElementById(anchor === "work" ? "work-preview" : anchor);
+      if (el) window.scrollTo({ top: el.offsetTop - 90, behavior: "smooth" });
+      else window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }, []);
+
+  return html`
+  <${React.Fragment}>
+    <${Nav} page=${page} go=${go} theme=${theme} toggleTheme=${() => setTheme(t => t === "dark" ? "light" : "dark")} />
+    ${page === "home"
+      ? html`<${HomePage} go=${go} onOpen=${setActive} />`
+      : html`<${ProjectsPage} go=${go} onOpen=${setActive} />`}
+    <${Footer} go=${go} />
+    ${active && html`<${ProjectModal} p=${active} onClose=${() => setActive(null)} />`}
+  <//>`;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
+</script>
+</body>
+</html>
