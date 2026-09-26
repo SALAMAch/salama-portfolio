@@ -23,7 +23,7 @@ export function Nav({ page, go, theme, toggleTheme }) {
           <button onClick={() => go('home', 'home')} className="flex items-center gap-2.5 font-display text-lg font-semibold">
             {/* Image Logo */}
             <img 
-              src="/src/Gemini_Generated_Image_d2wd2cd2wd2cd2wd-removebg-preview.png" 
+              src="/Gemini_Generated_Image_d2wd2cd2wd2cd2wd-removebg-preview.png" 
               alt="Salama Logo" 
               className="h-9 w-auto object-contain" 
             />

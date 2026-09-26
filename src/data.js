@@ -93,7 +93,8 @@ export const DATA = {
     },
     {
       id: 'la-terrasse',
-      title: 'WordPress',
+      title: 'Terace',
+      cat: 'WordPress',
       year: '2026',
       featured: true,
       image: '/terace.png',
@@ -155,8 +156,8 @@ export const DATA = {
       cat: 'WordPress',
       year: '2026',
       featured: false,
-      image: '/portfolio.png', // baddli smiya d l'image 3la hssab li 3andk
-      link: 'https://salamachakkar.site.je/', // l'link dyal site dyalk
+      image: '/portfolio.PNG', 
+      link: 'https://salamachakkar.site.je/', 
       github: 'https://github.com/...',
       short: 'Personal web development portfolio showcasing custom WordPress themes, interactive UI, and responsive layouts.',
       tags: ['WordPress', 'Elementor', 'CSS', 'JavaScript']
@@ -167,7 +168,7 @@ export const DATA = {
       cat: 'Development',
       year: '2026',
       featured: false,
-      image: '/saasPNG.png', // baddli smiya d l'image 3la hssab li 3andk
+      image: '/saasPNG.PNG', // baddli smiya d l'image 3la hssab li 3andk
       link: 'https://flowcraft-ai-app.netlify.app/', // wla l'link dyalu ila kan mpondi
       github: 'https://github.com/...',
       short: 'Modern AI SaaS landing page template featuring workflow automation copilot, clean UI, and Tailwind CSS design.',
