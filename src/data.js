@@ -73,7 +73,7 @@ export const DATA = {
       cat: 'E-Commerce',
       year: '2026',
       featured: true,
-      image: '/src/zenovatech.png',
+      image: '/zenovatech.png',
       link: 'https://zenovatech.wuaze.com/',
       github: 'https://github.com/...',
       short: 'Modern e-commerce platform for smartphones and tech accessories built with custom PHP, SQL, and Bootstrap grid filters.',
@@ -85,7 +85,7 @@ export const DATA = {
       cat: 'E-Commerce',
       year: '2026',
       featured: false,
-      image: '/src/screencapture-luxebeauty-.png',
+      image: '/screencapture-luxebeauty-.png',
       link: 'https://luxebeauty.wuaze.com/',
       github: 'https://github.com/...',
       short: 'Aesthetic skincare brand e-commerce store built with WordPress, Elementor, and custom styles.',
@@ -96,7 +96,7 @@ export const DATA = {
       title: 'WordPress',
       year: '2026',
       featured: true,
-      image: '/src/terace.png',
+      image: '/terace.png',
       link: 'https://laterrasse.wuaze.com/',
       short: 'Charming restaurant website featuring custom post types, ACF fields, and a polished WordPress setup.',
       tags: ['WordPress', 'Elementor', 'ACF', 'CPT']
@@ -107,7 +107,7 @@ export const DATA = {
       cat: 'Development',
       year: '2026',
       featured: true,
-      image: '/src/VetCare & Grooming Clinic - [127.0.0.1].png',
+      image: '/vetcare.png',
       link: 'https://larkspur-vet.wuaze.com/',
       github: 'https://github.com/...',
       short: 'Full-service veterinary care and spa-grade grooming web application built with Laravel and Tailwind CSS.',
@@ -119,7 +119,7 @@ export const DATA = {
       cat: 'Development',
       year: '2026',
       featured: true,
-      image: '/src/FireShot Capture 105 - Riad Royal Al-Mansour — Makesh - [riad-royal.wuaze.com].png',
+      image: 'riad.png',
       link: 'https://riad-royal.wuaze.com/',
       github: 'https://github.com/...',
       short: 'Exclusive private palace showcase featuring historical heritage, booking integration, and responsive Laravel design.',
@@ -131,7 +131,7 @@ export const DATA = {
       cat: 'E-Commerce',
       year: '2026',
       featured: false,
-      image: '/src/Captuuuure.PNG',
+      image: '/Captuuuure.PNG',
       link: 'https://cafe-luxe-react.vercel.app/',
       github: 'https://github.com/...',
       short: 'Modern e-commerce frontend platform for a luxury coffee brand built with React JS.',
@@ -143,7 +143,7 @@ export const DATA = {
       cat: 'WordPress',
       year: '2026',
       featured: false,
-      image: '/src/novae.png',
+      image: '/novae.png',
       link: '#',
       github: 'https://github.com/...',
       short: 'Sophisticated portfolio platform for an interior design studio currently in development using WordPress and Elementor.',
@@ -155,7 +155,7 @@ export const DATA = {
       cat: 'WordPress',
       year: '2026',
       featured: false,
-      image: '/src/portfolio.png', // baddli smiya d l'image 3la hssab li 3andk
+      image: '/portfolio.png', // baddli smiya d l'image 3la hssab li 3andk
       link: 'https://salamachakkar.site.je/', // l'link dyal site dyalk
       github: 'https://github.com/...',
       short: 'Personal web development portfolio showcasing custom WordPress themes, interactive UI, and responsive layouts.',
@@ -167,7 +167,7 @@ export const DATA = {
       cat: 'Development',
       year: '2026',
       featured: false,
-      image: '/src/saasPNG.png', // baddli smiya d l'image 3la hssab li 3andk
+      image: '/saasPNG.png', // baddli smiya d l'image 3la hssab li 3andk
       link: 'https://flowcraft-ai-app.netlify.app/', // wla l'link dyalu ila kan mpondi
       github: 'https://github.com/...',
       short: 'Modern AI SaaS landing page template featuring workflow automation copilot, clean UI, and Tailwind CSS design.',
@@ -179,7 +179,7 @@ export const DATA = {
       cat: 'E-Commerce',
       year: '2026',
       featured: false,
-      image: '/src/pharmacare.png', // baddli smiya d l'image 3la hssab li 3andk
+      image: '/pharmacare.png', // baddli smiya d l'image 3la hssab li 3andk
       link: '#',
       github: 'https://github.com/...',
       short: 'Advanced pharmacy e-commerce platform featuring an admin dashboard, custom SQL database, and secure PayPal payment API integration.',
