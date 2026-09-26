@@ -97,7 +97,7 @@ export const DATA = {
       cat: 'WordPress',
       year: '2026',
       featured: true,
-      image: '/terace.png',
+      image: '/terace.PNG',
       link: 'https://laterrasse.wuaze.com/',
       short: 'Charming restaurant website featuring custom post types, ACF fields, and a polished WordPress setup.',
       tags: ['WordPress', 'Elementor', 'ACF', 'CPT']
