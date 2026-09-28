@@ -118,7 +118,7 @@ export const DATA = {
       cat: 'Development',
       year: '2026',
       featured: true,
-      image: '/riadroyal.png',
+      image: '/riad_royal.png',
       link: 'https://riad-royal.wuaze.com/',
       short: 'Exclusive private palace showcase featuring historical heritage, booking integration, and responsive Laravel design.',
       tags: ['Laravel', 'PHP', 'Tailwind CSS', 'MySQL']
