@@ -75,7 +75,6 @@ export const DATA = {
       featured: true,
       image: '/zenovatech.png',
       link: 'https://zenovatech.wuaze.com/',
-      github: 'https://github.com/...',
       short: 'Modern e-commerce platform for smartphones and tech accessories built with custom PHP, SQL, and Bootstrap grid filters.',
       tags: ['PHP', 'SQL', 'JavaScript', 'Bootstrap']
     },
@@ -87,7 +86,6 @@ export const DATA = {
       featured: false,
       image: '/screencapture-luxebeauty-.png',
       link: 'https://luxebeauty.wuaze.com/',
-      github: 'https://github.com/...',
       short: 'Aesthetic skincare brand e-commerce store built with WordPress, Elementor, and custom styles.',
       tags: ['WordPress', 'Elementor', 'WooCommerce', 'ACF']
     },
