@@ -101,6 +101,17 @@ export const DATA = {
       tags: ['WordPress', 'Elementor', 'ACF', 'CPT']
     },
     {
+      id: 'giftora',
+      title: 'The Giftora',
+      cat: 'E-Commerce',
+      year: '2026',
+      featured: true,
+      image: '/giftora.PNG', 
+      link: 'https://giftora.wuaze.com/',
+      short: 'Thoughtful gift shop e-commerce platform featuring custom collections, occasions filters, and responsive design built with PHP, SQL, and Bootstrap.',
+      tags: ['PHP', 'SQL', 'JavaScript', 'Bootstrap']
+    },
+    {
       id: 'vet-care',
       title: 'VetCare',
       cat: 'Development',
